@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{# {{article.title}} #}
+{% endblock %}
+
+{# {% block javascripts %}
+	<script>
+		function myFunction() {
+alert("Hello! I am an alert box!");
+}
+	</script>
+{% endblock %} #}
+{% block body %}
+	<div class="container">
+
+		<div
+			class="d-flex flex-row mt-4 ">
+			{# Add the button Modify #}
+			<button class="btn btn-warning  mr-4">
+				<a href="{{ path('article_edit' , {'slug': article.slug } ) }}" class="text-decoration-none text-white">Modify the Article
+					<i class="fas fa-edit"></i>
+				</a>
+			</button>
+
+			{# Add the button delete#}
+			{# <button class="btn btn-danger  mr-4" onclick="return confirm('Etes vous sur de vouloir supprimer cette article ?');">
+																<a href="{{ path('article_delete' , {'slug': article.slug } ) }}" class="text-decoration-none text-white">Cancle the Article
+																	<i class="fa fa-trash" aria-hidden="true"></i>
+																</a>
+															</button> #}
+
+			<form class="d-inline" action="{{ path('article_delete' , {'slug': article.slug } ) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette article ?');">
+				<button class="btn btn-danger mx-2">
+					Supprimer l'article
+					<i class="fa fa-trash"></i>
+				</button>
+			</form>
+		</div>
+		<h1 class="my-5text-center">{{article.title}}</h1>
+
+		<p>{{article.createdAt | date ('d/m/Y à H:i')}}</p>
+		<p class="my-2 border p-2">{{article.intro}}</p>
+
+		<img src="{{article.image}}" alt="photo of the article {{article.title}}">
+
+		<div class="my-5">
+			<hr>
+			{{article.content | raw}}
+			<hr>
+		</div>
+
+	</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+		<a class="navbar-brand" href="{{path("home_page")}}">
+			YesCode
+		</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav mr-auto">
+
+				<li class="nav-item">
+					<a class="nav-link" href="{{path("home_page")}}">
+						<i class="fa fa-home"></i>
+						Accueil
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('articles_index') }}">
+						<i class="fa fa-newspaper"></i>
+						Articles
+					</a>
+				</li>
+
+			</ul>
+
+			{% set user = {"firstname":"amar", "lastname": "bou", "role": "admin" , 'isConnected': true} %}
+
+			<ul class="navbar-nav ml-auto">
+				{% if user.isConnected %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-user"></i>
+							{{ user.firstname | title }}
+							{{ user.lastname | title }}
+						</a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="#">Mon Profil</a>
+							<a class="dropdown-item" href="#">Mes articles</a>
+							{% if user.role == "admin" %}
+								<a class="dropdown-item" href="#">Espace Admin</a>
+							{% endif %}
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Déconnexion</a>
+						</div>
+					</li>
+				{% else %}
+					<li class="nav-item mx-3">
+						<a class="nav-link" href="">
+							<i class="fas fa-user-plus mx-2"></i>
+							inscription
+						</a>
+					</li>
+					<li class="nav-item ">
+						<a class="nav-link" href="">
+							<i class="fas fa-sign-in-alt mx-2"></i>
+							connexion
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+</header>
+
+
+{% for label,messages in app.flashes %}
+	<div class="container text-center my-5">
+		<div class="alert alert-{{ label }}">
+			{% for message in messages %}
+				<p>{{ message | raw }}</p>
+			{% endfor %}
+		</div>
+	</div>
+{% endfor %}

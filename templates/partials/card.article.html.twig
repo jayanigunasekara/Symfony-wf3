@@ -1,0 +1,40 @@
+{# <div class="col-xl-4 col-lg-4 col-md-8 col-sm-12 m-auto text-center">
+    <div class="card bg-light my-5 shadow ">
+        <h3 class="card-header">{{article.title | title}}</h3>
+        <img height="350px" class="rounded-circle border border-success m-2" src="{{article.image}}" alt="Card image">
+        <div class="card-body">
+          <p class="card-text">{{article.intro}}</p>
+          <a href="#" class="btn btn-primary rounded">Lire la suite</a>
+          <div class="my-3">
+              <a href="#" class="card-link">{{article.author}}</a>
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          Il y a 2 jours
+        </div>
+    </div>
+</div> #}
+
+
+<div class="col-xl-4 col-lg-4 col-md-8 col-sm-12 m-auto text-center">
+	<div class="card bg-light my-5 shadow ">
+		<h3 class="card-header">{{article.title | title}}</h3>
+		<img height="350px" class="rounded-circle border border-success m-2" src="{{article.image}}" alt="Card image">
+		<div class="card-body">
+			<p class="card-text">{{article.intro}}</p>
+			<a href="{{path('article_show', {'slug':article.slug} )}}" class="btn btn-primary rounded">Lire la suite</a>
+			<div class="my-3">
+				<a href="#" class="card-link">
+					Amar Bou
+				</a>
+			</div>
+		</div>
+		<div class="card-footer text-muted">
+			{% if article.createdAt %}
+				{{ article.createdAt | date('d/m/Y à H:i') }}
+			{% else %}
+				Il y a 2 jours
+			{% endif %}
+		</div>
+	</div>
+</div>
