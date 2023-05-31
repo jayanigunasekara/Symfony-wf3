@@ -1,44 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-	<div class="container">
+<div class="container">
 
-		<div class="jumbotron text-center my-5 shadow">
-			<h1 class="display-4">Bienvenue sur YesCode !</h1>
-			<p class="lead">Ici ça parle de code, langages, technos de demain
-			</p>
-			<hr class="my-4">
-			<p>Retrouvez nos derniers articles sur les technos les plus hype du moment !</p>
-			<p class="lead">
-				<a class="btn btn-primary btn-lg shadow" href="#" role="button">
-					&lt;/&gt; Actualités &lt;/&gt;
-				</a>
-			</p>
-		</div>
+    <div class="jumbotron text-center my-5 shadow">
+        <h1 class="display-4">Bienvenue sur YesCode !</h1>
+        <p class="lead">Ici ça parle de code, langages, technos de demain </p>
+        <hr class="my-4">
+        <p>Retrouvez nos derniers articles sur les technos les plus hype du moment !</p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg shadow" href="#" role="button">  &lt;/&gt; Actualités &lt;/&gt; </a>
+        </p>
+    </div>
+        
+    <h2 class="text-center h1">Les derniers articles</h2>
+    
+    <div class=" row flex-lg-row flex-xl-row flex-column">
 
-		<h2 class="text-center h1">Les derniers articles</h2>
+    {% for article in articles %}
 
-		{# {% set symfony = {"title": "symfony", "intro": "Symfony est un framework PHP complet", "image":"https://neo7.fr/wp-content/uploads/2018/01/symfony-logo.png", "createdAt": date() } %}
-						
-								{% set angular = {"title": "angular", "intro": "Angular le framework de Google", "image":"https://angular.io/assets/images/logos/angular/angular.svg" , "createdAt": date() }%}
-						
-								{% set laravel = {"title": "laravel", "intro": "Laravel est un framework PHP aussi", "image":"https://jf-blog.fr/wp-content/uploads/2018/07/laravel-logo.png" , "createdAt": date()} %}
-						
-								{% set articles = {'angular':angular, 'symfony':symfony, 'laravel':laravel} %} #}
+        {% include "partials/card.article.html.twig" %}
+        
+    {% endfor %}
 
-		<div
-			class=" row flex-lg-row flex-xl-row flex-column">
-			{# {% include "partials/card.article.html.twig"   %} #}
-			{% for article in articles %}
-
-				{% include "partials/card.article.html.twig"   %}
-
-			{% endfor %}
-
-		</div>
-	</div>
+    </div>
+</div>
 
 {% endblock %}

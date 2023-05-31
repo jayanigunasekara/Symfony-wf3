@@ -25,38 +25,47 @@
 						Articles
 					</a>
 				</li>
-
+				{% if app.user %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('article_create') }}">
+							<i class="fa fa-pen"></i>
+							Ecrire un article
+						</a>
+					</li>
+				{% endif %}
 			</ul>
+		
 
-			{% set user = {"firstname":"amar", "lastname": "bou", "role": "admin" , 'isConnected': true} %}
+			{% set user = {"firstname":"amar", "lastname": "bou", "role": "admin" , 'isConnected': false} %}
 
 			<ul class="navbar-nav ml-auto">
-				{% if user.isConnected %}
+				{% if app.user %}
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 							<i class="fa fa-user"></i>
-							{{ user.firstname | title }}
-							{{ user.lastname | title }}
+							{{ app.user.firstname | title }}
+							{{ app.user.lastname | title }}
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
 							<a class="dropdown-item" href="#">Mon Profil</a>
+							<a class="dropdown-item" href="{{ path('article_create') }}">Ecrire un article</a>
 							<a class="dropdown-item" href="#">Mes articles</a>
 							{% if user.role == "admin" %}
 								<a class="dropdown-item" href="#">Espace Admin</a>
 							{% endif %}
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Déconnexion</a>
+							<a class="dropdown-item" href="{{ path('account_logout') }}">Déconnexion</a>
 						</div>
 					</li>
 				{% else %}
 					<li class="nav-item mx-3">
-						<a class="nav-link" href="">
+						<a class="nav-link" href="{{ path('account_create') }}">
 							<i class="fas fa-user-plus mx-2"></i>
 							inscription
 						</a>
 					</li>
 					<li class="nav-item ">
-						<a class="nav-link" href="">
+						<a class="nav-link" href="{{ path('account_login') }}">
 							<i class="fas fa-sign-in-alt mx-2"></i>
 							connexion
 						</a>
@@ -64,9 +73,9 @@
 				{% endif %}
 			</ul>
 		</div>
+
 	</nav>
 </header>
-
 
 {% for label,messages in app.flashes %}
 	<div class="container text-center my-5">
@@ -77,3 +86,6 @@
 		</div>
 	</div>
 {% endfor %}
+
+
+

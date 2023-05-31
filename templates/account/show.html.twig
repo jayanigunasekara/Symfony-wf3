@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{user.fullname}}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="my-5 text-center">{{user.fullname}}</h1>
+		<div class="row">
+			<div class="col-4">
+				<p class="text-left">email:
+					{{ user.email}}
+				</p>
+			</div>
+			{% if user is same as(app.user)  %}
+				<div>
+					<a href="{{ path('account_edit' , {'slug': user.slug } ) }}" class="btn btn-info mx-2">
+						Modifier mon profil
+						<i class="fa fa-pen"></i>
+					</a>
+					<form class="d-inline" action="{{ path('account_delete' , {'slug': user.slug } ) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette article ?');">
+						<button class="btn btn-danger mx-2">
+							Supprimer mon profil
+							<i class="fa fa-trash"></i>
+						</button>
+					</form>
+				</div>
+			{% endif %}
+		</div>
+
+		<p class="my-2 border p-2">{{user.presentation}}</p>
+
+		<img src="{{user.avatar}}" alt="photo de l'article {{user.firstname}}" width="450px">
+
+
+		{% if user.articles | length > 0 %}
+
+				<h2 class="my-5">Mes articles en lignes</h2>
+
+				<div class="row flex-lg-row flex-xl-row flex-column border bg-light">
+					{% for article in user.articles %}
+						{% include "partials/card.article.html.twig" %}
+					{% endfor %}
+				</div>
+
+			{% else %}
+
+				<div class="border text-center bg-light my-5">
+					<h2 class="my-5">Vous n'avez pas encore publié d'article !</h2>
+					<a class="nav-link text-center h2" href="{{ path('article_create') }}">
+							<i class="fa fa-pen fa-1.5x"></i>
+							Ecrire un article
+					</a>
+				</div>
+
+		{% endif %}
+
+	</div>
+{% endblock %}

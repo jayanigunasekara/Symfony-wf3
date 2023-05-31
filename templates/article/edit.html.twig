@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Publish an article
-{% endblock %}
+{% block title %}Modifier l'article{% endblock %}
 
 {% block body %}
-	<div
-		class="container">
-		{# <h1>{{msg}}</h1> #}
-		<h1 class="my-5">Edit the article</h1>
-		{{form(form)}}
-		</div>
-	{% endblock %}
+<div class="container">
+
+    <h1 class="my-5 text-center">Modifier l'article</h1>
+
+    <div class="col-8 m-auto">
+        {{ form(form) }}
+    </div>
+  
+</div>
+
+{% endblock %} 

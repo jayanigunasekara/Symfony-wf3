@@ -2,57 +2,60 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
+
+ /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
-
 class Article
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * 
      */
-    
-
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 255,
+     *      minMessage = "Un titre aussi court ? Minimum {{ limit }} charactères requis ",
+     *      maxMessage = "Un titre de moins {{ limit }} charactères est requis  !",
+     *      allowEmptyString = false
+     * )
      */
-
-    //  /** @Assert\Length(
-    //  * min:20,
-    //  * max:255,
-    //  * minMessage: 'Title must be at least {{ limit }} characters long',
-    //  * maxMessage: 'Your first name cannot be longer than {{ limit }} characters'
-    //   */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     * @Assert\Length(
+     *      min = 20,
+     *      max = 255,
+     *      minMessage = "Minimum {{ limit }} charactères pour l'intro ",
+     *      maxMessage = "Plus de {{ limit }} charactères ce n'est plus une intro  !",
+     *      allowEmptyString = false)
      */
     private $intro;
 
-
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Ce champs ne peut pas etre vide")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(message="Ceci n'est pas une url")
      */
-    private $Image;
+    private $image;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,6 +66,12 @@ class Article
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function getId(): ?int
     {
@@ -98,7 +107,7 @@ class Article
         return $this->content;
     }
 
-    public function setContent(?string $content): self
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
@@ -107,12 +116,12 @@ class Article
 
     public function getImage(): ?string
     {
-        return $this->Image;
+        return $this->image;
     }
 
-    public function setImage(string $Image): self
+    public function setImage(string $image): self
     {
-        $this->Image = $Image;
+        $this->image = $image;
 
         return $this;
     }
@@ -141,33 +150,45 @@ class Article
         return $this;
     }
 
-
-    /** 
-     * Genére un slug automatiquement
+    /**
+     * Génére un slug automatiquement
+     *
      * @ORM\PrePersist
-     * @return void 
-     */  
-
+     * @ORM\PreUpdate
+     * 
+     * @return void
+     */
     public function initSlug(){
-        if(empty($this->slug)){
+        if(empty($this->slug) ){
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getTitle() . time() . hash( "sha1" , $this->getIntro()));
+            $this->slug = $slugify->slugify($this->getTitle(). time( ) . hash("sha1", $this->getIntro()) );
         }
     }
 
-    /** 
-     * Genére un slug automatiquement
+    /**
+     * Génére la date automatiquement 
+     *
      * @ORM\PrePersist
      * @ORM\PreUpdate
-     * @return void 
+     * 
+     * @return void
      */
-
     public function updateDate(){
-        if (empty($this->createdAt)) {
+        if(empty($this->createdAt)){
             $this->createdAt = new \DateTime();
         }
     }
 
+    public function getAuthor(): ?user
+    {
+        return $this->author;
+    }
 
+    public function setAuthor(?user $author): self
+    {
+        $this->author = $author;
 
+        return $this;
+    }
+    
 }

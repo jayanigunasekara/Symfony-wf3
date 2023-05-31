@@ -5,41 +5,38 @@ namespace App\Form;
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArticleType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('title' , TextType::class , [      
-            "label" => "Titre de l'article",
-            "attr"  => ["placeholder" => "Votre titre ici..."]
-        ])
-        ->add('intro', TextType::class , [
-            "label" => "Introduction de votre article",
-            "attr"  => ["placeholder" => "Une intro accrocheuse..."]
-        ] )
-        ->add('content', TextareaType::class , [
-            "label" => "Contenu de votre article",
-            "attr"  => ["placeholder" => "Ici un roman...lachez-vous..."]
-        ])
-        ->add('image', TextType::class, [
-            "label" => "URL (adresse de l'image)",
-            "attr"  => ["placeholder" => "https://...."]
-        ])
-        ->add('Envoyer', SubmitType::class)
-            
-            // ->add('createdAt')
-            // ->add('slug')
+            ->add('title', TextType::class, [
+                'label' => 'Titre de l\'article',
+                'attr'  => ['placeholder' => 'Le titre de votre article']
+            ])
+            ->add('intro', TextType::class, [
+                'label' => 'Intro de l\'article',
+                'attr'  => ['placeholder' => 'Une phrase d\'acroche']   
+            ])
+            ->add('image', UrlType::class, [
+                'label' => 'Adresse de l\'image',
+                'attr'  => ['placeholder' => 'Coller un lien d\'image']   
+            ])
+            ->add('content', TextareaType::class, [
+                'label' => 'Votre contenu',
+                'attr'  => ['placeholder' => 'Dites-nous tout !']   
+            ])
+            ->add('Envoyer', SubmitType::class)
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Article::class,

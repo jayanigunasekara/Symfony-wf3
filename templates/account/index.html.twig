@@ -1,52 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!
+{% block title %}Liste des membres
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	<div class="container">
 
-	<div>
-		<table class="table table-primary">
+		<h1 class="my-5">Liste des membres</h1>
+
+		<table class="table table-hover border text-center">
 			<thead>
 				<tr>
-					<th scope="col">#</th>
-					<th scope="col">First</th>
-					<th scope="col">Last</th>
-					<th scope="col">Handle</th>
+					<th>id</th>
+					<th>Avatar</th>
+					<th>Nom Complet</th>
+					<th>email</th>
+					<th>articles en lignes</th>
+					<th colspan="2">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>Mark</td>
-					<td>Otto</td>
-					<td>@mdo</td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Jacob</td>
-					<td>Thornton</td>
-					<td>@fat</td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Larry</td>
-					<td>the Bird</td>
-					<td>@twitter</td>
-				</tr>
+				{% for user in users %}
+					<tr class="table">
+						<td>{{user.id}}</td>
+						<td>
+							<img src="{{user.avatar}}" width="60px" class="rounded">
+						</td>
+						<td>{{user.fullname}}</td>
+						<td>{{user.email}}</td>
+						<td>{{  user.articles | length}}</td>
+						<td>
+							<a href="{{ path('account_profil' , {'slug': user.slug } ) }}" class="btn btn-primary">
+								<i class="fas fa-eye"></i>
+							</a>
+						</td>
+						<td>
+							<form class="d-inline" action="{{ path('account_delete' , {'slug': user.slug } ) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette utilisateur ?');">
+								<button class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+					{% endfor %}
+				</tbody>
 			</tbody>
 		</table>
+
 	</div>
+
 {% endblock %}
