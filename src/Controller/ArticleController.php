@@ -76,6 +76,7 @@ class ArticleController extends AbstractController
      */
     public function edit(Request $request, Article $article, EntityManagerInterface $manager)
     {
+        // $article = $repo->findOneBySlug($slug);
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);

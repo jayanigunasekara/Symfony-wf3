@@ -73,6 +73,22 @@ class Article
      */
     private $author;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="article_id")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+
+
+   
+
+
+
+    
+
+ 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -187,6 +203,30 @@ class Article
     public function setAuthor(?user $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getCategoryId(): ?Category
+    {
+        return $this->category_id;
+    }
+
+    public function setCategoryId(?Category $category_id): self
+    {
+        $this->category_id = $category_id;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

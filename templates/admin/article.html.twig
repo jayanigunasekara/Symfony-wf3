@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des articles
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<h1 class="my-5">Liste des articles</h1>
+		<p class="alert alert-primary p-2 my-3 text-center col-3">Retour au tableau de board</p>
+		<a href=""></a>
+		<table class="table table-hover border text-center">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>Avatar</th>
+					<th>Nom Complet</th>
+					<th>email</th>
+					<th>articles en lignes</th>
+					<th colspan="2">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for article in articles %}
+					<tr class="table">
+						<td>{{article.id}}</td>
+						<td>
+							<img src="{{article.avatar}}" width="60px" class="rounded">
+						</td>
+						<td>{{article.fullname}}</td>
+						<td>{{article.email}}</td>
+						<td>{{  article.articles | length}}</td>
+						<td>
+							<a href="{{ path('account_profil' , {'slug': article.slug } ) }}" class="btn btn-primary">
+								<i class="fas fa-eye"></i>
+							</a>
+						</td>
+						<td>
+							<form class="d-inline" action="{{ path('account_delete' , {'slug': article.slug } ) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette utilisateur ?');">
+								<button class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</button>
+							</form>
+						</td>
+					</tr>
+					<tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+
+	</div>
+
+{% endblock %}

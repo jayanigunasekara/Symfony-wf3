@@ -6,6 +6,7 @@ use Faker;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Article;
+use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -20,16 +21,16 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager )
     {
-        $faker = Faker\Factory::create('fr_FR');
+        $faker = Faker\Factory::create('ma_MA');
 
         $adminRole = new Role();
         $adminRole->setTitle('ROLE_ADMIN');
         $manager->persist($adminRole);
 
         $adminUser = new User();
-        $adminUser->setFirstName('Amar')
-                  ->setLastName('Admin')
-                  ->setEmail('admin@admin.com')
+        $adminUser->setFirstName('Jayani')
+                  ->setLastName('Gunasekara')
+                  ->setEmail('jayani@admin.com')
                   ->setHash($this->encoder->encodePassword($adminUser, 'password'))
                   ->setAvatar('https://www.gravatar.com/avatar/00000000000000000000000000000000?d=wavatar&f=y')
                   ->setPresentation('Moi un User pas comme les autres')
@@ -61,6 +62,15 @@ class AppFixtures extends Fixture
       
         }
 
+        //Generate articles 
+        $categories = [];
+        for ($i=0; $i < 5; $i++) { 
+            $category = new Category();
+            $category->setName($faker->sentence(1));
+            $manager->persist($category);
+            $categories[] = $category;
+        }
+
 
         // GESTION DES ARTICLES
         for ($i=0; $i <=20 ; $i++) { 
@@ -76,11 +86,13 @@ class AppFixtures extends Fixture
             $content = '<p>' . implode('</p><p>',$faker->paragraphs(5)) . '</p>';
 
             $author= $users[mt_rand(0, count($users) -1)];
+            $category = $categories[mt_rand(0, count($categories) -1 )];
 
             $article->setTitle($title)
                     ->setImage($image)
                     ->setIntro($intro)
                     ->setContent($content)
+                    ->setCategory($category)
                     ->setAuthor($author);
 
             $manager->persist($article);
